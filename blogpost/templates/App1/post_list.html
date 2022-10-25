@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{%extends 'App1/parent.html'%}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>
+		{%block title_block%}
+		Lohith blog
+		{%endblock%}
+	</title>
+</head>
+<body>
+	{%block content_block%}
+		<h1>Home page</h1>
+		{%if tag%}
+		<h1>Post Tagged with{{tag.name}}</h1>
+
+		{%endif%}
+
+		{%for post in post_list%}
+			<p>
+			<h2><a href="{{post.get_absolute_url}}"> {{post.title}} </a></h2>
+			<p>Tag links:
+			{%for tag in post.tags.all%}
+				<a href="{%url "postlisttagname" tag.slug%}">{{tag.name}}</a>
+			{%endfor%}
+			</p>
+			published on: {{post.publish}} by {{post.author|title}}<!--  |title makes first letter of author upper case -->
+			<p>Tags:{{post.tags.all|join:','}}</p>
+			<!-- all tags related to current Post are joined using comma(,) -->
+
+			{{post.body|truncatewords:30|linebreaks}} <!-- truncatewords will will reduce the number of words to given number and linebreaks will include the count of linebreaks -->
+			</p>
+		{%endfor%}
+
+		{%include 'App1/pagination.html' with page=post_list%}
+		
+	{%endblock%}
+</body>
+</html>

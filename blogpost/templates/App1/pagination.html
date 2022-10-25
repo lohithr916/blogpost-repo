@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+	<div class="paginator">
+		{%if page.has_previous%}
+			<a href="?page={{page.previous_page_number}}">Previous</a> &nbsp &nbsp
+		{%endif%}
+		<span>
+			Page {{page.number}} of {{page.paginator.num_pages}}
+		</span>
+		{%if page.has_next%}
+			<a href="?page={{page.next_page_number}}">next</a> &nbsp &nbsp
+		{%endif%}
+
+<!-- 		Paginator class is included to make use of paginator relates properties and methods.
+has_previous return true if current has previous page
+?page is used to match page pattern
+previous_page_number returns previous page number where 'number' return current page number
+next_page_number return next page number -->
+
+	</div>
+
+</body>
+</html>

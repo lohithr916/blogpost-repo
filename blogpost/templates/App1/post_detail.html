@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{%extends 'App1/parent.html'%}
+<html>
+<head>
+	<title>
+		{{post.title}}
+	</title>
+</head>
+<body>
+	{%block content_block%}
+		<p>published on	{{post.detail}} by {{post.publish}} by {{post.author|title}}</p>
+
+		{{post.body|linebreaks}}
+		<!-- |truncatewords:40 this can be used for truncating the words in a string -->
+
+		<a href="/{{post.id}}/share" class="btn btn-primary">send mail</a>
+
+		{%with comments.count as comments_count%}
+			 <h2> {{comments_count}} comment{{comments_count|pluralize}}</h2>
+		{%endwith%}
+
+		{%if comments%}
+			{%for comment in comments%}
+				<p>comment {{forloop.counter}} by {{comment.email}}</p>
+
+				<div>
+					{{comment.body|linebreaks}}
+				</div>
+				<hr>
+			{%endfor%}
+		{%else%}
+		<p>there are no comments</p>
+		{%endif%}
+
+		{%if comment_submitted%}
+			<h2>your comment has been added successfully</h2>
+
+		{%else%}
+		<div>
+		<form method="post">
+			{{form.as_p}}
+			{%csrf_token%}
+			<input class="btn btn-primary" type="submit" value="submit">
+		</form>
+		{%endif%}
+		</div>
+
+	{%endblock%}
+
+	<!-- in jinja syntax alliasing can done using 'with' keyword.
+	'pluralize' adds charecter 's' as sufix.
+	'foorloop.counter' holds count of foor loop execution.
+	{{comments_count}} comment {{comments_count|pluralize}}, here 's' will be siffix iff comments_count > 1
+	comment_submitted is required to check whether comment form is submiited on not. if form already submitted, it gived a successful message else displayes the comment form to post.
+	 -->
+
+	 
+	 
+</body>
+</html>
